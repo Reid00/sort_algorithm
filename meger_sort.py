@@ -1,45 +1,39 @@
-import random
 import numpy as np
 
-
-def merge_sort(list):
-    if len(list) < 2:
-        return list
-    mid = int(len(list) // 2)
-    left = merge_sort(list[:mid])
-    right = merge_sort(list[mid:])
-    return merge(left, right)
-
-
-# def merge(left, right):
-#     res = []
-#     i, j = 0, 0
-#
-#     while i < len(left) and j < len(right):
-#         if left[i] < right[j]:
-#             res.append(left[i])
-#             i += 1
-#         else:
-#             res.append(right[j])
-#             j += 1
-#
-#     res += left[i:]
-#     res += right[j:]
-#     return res
-
-def merge(left, right):
-    res = []
-    while left and right:
-        if left[0] < right[0]:
-            res.append(left.pop(0))
+def merge(left,right):
+    lst=[]
+    l=r=0
+    while l<len(left) and r<len(right):
+        if left[l]<right[r]:
+            lst.append(left[l])
+            l +=1
         else:
-            res.append(right.pop(0))
-    res = res + left + right
-    return res
+            lst.append(right[r])
+            r +=1
 
+    if l==len(left):
+        for i in right[r:]:
+            lst.append(i)
+    else:
+        for i in left[l:]:
+            lst.append(i)
+    # method two:
+    # if l==len(left):
+    #     arr=np.hstack((arr,right[r:]))
+    # else:
+    #     arr=np.hstack((arr,left[l:]))
+    return lst
 
-if __name__ == '__main__':
-    # list = np.random.randint(1, 100, 15)
-    list = [15, 2, 6, 18, 3, 7]
-    print('排序前:', list)
-    print('排序后：', merge_sort(list))
+def merge_sort(lst):
+    if len(lst)<=1:
+        return lst
+    middle= len(lst)//2
+    left=merge_sort(lst[:middle])
+    right=merge_sort(lst[middle:])
+    return merge(left,right)
+
+if __name__ == "__main__":
+    lst=[1,9,2,100,50,6,3]
+    res=merge_sort(lst)
+    print(res)
+
